@@ -1,9 +1,9 @@
 "use client";
 import css from './NoteDetails.client.module.css'
-import { useParams } from 'next/navigation';
+import { useParams,  useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import {fetchNoteById} from "../../../lib/api" ;
-import type { Note } from "../../../types/note"; 
+import { fetchNoteById } from "@/lib/api/clientApi"
+import type { Note } from "@/types/note"; 
 
 
 export default function NoteDetails (){ 
@@ -15,7 +15,7 @@ const {data: note, isLoading, isError} =useQuery<Note, Error>({
 	queryFn: ()=> fetchNoteById(id),
 	refetchOnMount: false,
 });
-
+ const router = useRouter();
 if (isLoading) return <p className={css.text}>Loading, please wait...</p>
 if (isError|| !note) return <p className={css.text}> Something went wrong. Could not upload details</p>;
 
@@ -27,6 +27,7 @@ return(
 	  </div>
 	  <p className={css.content}>{note.content}</p>
 	  <p className={css.date}>Created date: {new Date(note.createdAt).toLocaleDateString()}</p>
+	   <button className={css.backBtn} onClick={() => router.back()}>Back</button>
 	</div>
 </div>)
 }

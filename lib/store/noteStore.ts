@@ -1,21 +1,20 @@
-
 import {create} from 'zustand';
 import {persist} from 'zustand/middleware';
-import { CreateNoteParams } from '../api';
+import { CreateNoteParams } from '../api/clientApi';
 
-
-type NoteDraft = {
+type NoteDraftStore = {
     draft: CreateNoteParams;
     setDraft: (draft: CreateNoteParams) => void;
     clearDraft: () => void;
 }
+
 const initialDraft: CreateNoteParams = {
-  title: '',
-  content: '',
-  tag: 'Todo',
+    title: '',
+    content: '',
+    tag: "Todo",
 };
 
-export const useNoteDraft = create<NoteDraft>()(persist(
+export const useNoteDraftStore = create<NoteDraftStore>()(persist(
     (set) => ({
         draft: initialDraft,
         setDraft: (draft) => set({ draft }),
@@ -26,5 +25,3 @@ export const useNoteDraft = create<NoteDraft>()(persist(
         partialize: (state) => ({ draft: state.draft }),
     }
 ));
- 
- 

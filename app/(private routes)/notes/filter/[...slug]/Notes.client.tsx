@@ -7,10 +7,11 @@ import SearchBox from "@/components/SearchBox/SearchBox";
  
 import {useQuery, keepPreviousData} from "@tanstack/react-query";
 import {useDebouncedCallback} from "use-debounce";
-import {fetchNotes, type NoteResponse } from "@/lib/api";
+import {fetchNotes, type NoteResponse } from "@/lib/api/clientApi"
 import {useState} from "react";
 import css from "./notesPage.module.css";
 import Link from "next/link";
+import Router from "next/router";
 
  type NoteListClientProps = {
   tag?: string;
@@ -46,7 +47,7 @@ const NoteListClient= ({ tag }: NoteListClientProps) => {
       <header className={css.toolbar}>
           <SearchBox searchQuery={query} onUpdate={handleInputChange}/>
           {totalPages> 1 && <Pagination totalPages={totalPages} page={page} setPage={setPage}/>}
-          {/* <button className={css.button} onClick={openModal}>Create note +</button> */}
+          <button className={css.button} onClick={() => Router.push('/notes/action/create')}>Create note +</button>
           <Link href="/notes/action/create">Create note</Link>
       </header>
       {/* {isModalOpen && <Modal onClose={closeModal}>
@@ -56,45 +57,5 @@ const NoteListClient= ({ tag }: NoteListClientProps) => {
     </>
   );
 }
-
 export default NoteListClient;
-
-
-// // import { useDebounce } from "use-debounce";
-// // import { useQuery, keepPreviousData } from "@tanstack/react-query";
-
-
-//    const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
-// }, 300);
-//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setQuery(e.target.value);
-//     setPage(1);
-//     debouncedSearchTerm(e.target.value)
-//   };
-//   const { data } = useQuery<NoteResponse>({
-//     queryKey: ['notes', {query: debouncedQuery, page: page, tag: tag}],
-//     queryFn: () => fetchNotes(page, debouncedQuery, tag),
-//     placeholderData: keepPreviousData,
-//     refetchOnMount: false,
-//   });
-
-
-
-//   const totalPages = data?.totalPages || 0;
-//   return (
-//     <>
-//       <header className={css.toolbar}>
-//           <SearchBox searchQuery={query} onUpdate={handleInputChange}/>
-//           {totalPages> 1 && <Pagination totalPages={totalPages} page={page} setPage={setPage}/>}
-//           <button className={css.button} onClick={openModal}>Create note +</button>
-//       </header>
-//       {isModalOpen && <NoteModal onClose={closeModal}>
-//         <NoteForm onClose={closeModal}/>
-//       </NoteModal>}
-//       {data?.notes && <NoteList notes={data?.notes}/>}
-//     </>
-//   );
-// }
-
-// export default NoteListClient;
 

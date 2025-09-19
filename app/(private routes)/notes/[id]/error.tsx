@@ -1,6 +1,5 @@
 'use client';
-import css from '@/app/notes/filter/[...slug]/ErrorMessage.module.css'
-
+import css from './ErrorPage.module.css'
 
 type Props = {
   error: Error;
