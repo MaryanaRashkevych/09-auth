@@ -3,27 +3,25 @@
 import NoteList from "@/components/NoteList/NoteList";
 import Pagination from "@/components/Pagination/Pagination";
 import SearchBox from "@/components/SearchBox/SearchBox";
- 
- 
+  
 import {useQuery, keepPreviousData} from "@tanstack/react-query";
 import {useDebouncedCallback} from "use-debounce";
 import {fetchNotes, type NoteResponse } from "@/lib/api/clientApi"
 import {useState} from "react";
 import css from "./notesPage.module.css";
-import Link from "next/link";
-import Router from "next/router";
+// import Link from "next/link";
+import { useRouter } from "next/navigation";
 
  type NoteListClientProps = {
   tag?: string;
 };
 
 const NoteListClient= ({ tag }: NoteListClientProps) => {
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [page, setPage] = useState(1);
-  // const [isModalOpen, setModalOpen] = useState(false);
-  // const openModal = () => setModalOpen(true);
-  // const closeModal = () => setModalOpen(false);
+  
   const debouncedSetQuery = useDebouncedCallback((value: string) => {
   setDebouncedQuery(value);
 }, 300);
@@ -47,12 +45,12 @@ const NoteListClient= ({ tag }: NoteListClientProps) => {
       <header className={css.toolbar}>
           <SearchBox searchQuery={query} onUpdate={handleInputChange}/>
           {totalPages> 1 && <Pagination totalPages={totalPages} page={page} setPage={setPage}/>}
-          <button className={css.button} onClick={() => Router.push('/notes/action/create')}>Create note +</button>
-          <Link href="/notes/action/create">Create note</Link>
+           <button className={css.button} onClick={() => router.push('/notes/action/create')}>
+          Create NOTE +
+        </button>
+          {/* <Link href="/notes/action/create">Create note</Link> */}
       </header>
-      {/* {isModalOpen && <Modal onClose={closeModal}>
-        <NoteForm onClose={closeModal}/>
-      </Modal>} */}
+      
       {data?.notes && <NoteList notes={data?.notes}/>}
     </>
   );

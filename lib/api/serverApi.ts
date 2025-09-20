@@ -3,16 +3,17 @@ import { nextServer } from "./api"
 import type{ Note } from '@/types/note';
 import type { User } from "@/types/user";
 import type { NoteResponse } from "./clientApi";
+import type { AxiosResponse } from "axios";
  
 
-export const checkServerSession = async (): Promise<boolean> => {
+export const checkServerSession = async (): Promise<AxiosResponse> => {
   const cookieStore = await cookies();
-  const {data} = await nextServer.get('/auth/session', {
+  const response = await nextServer.get('/auth/session', {
     headers: {
       Cookie: cookieStore.toString(),
     },
   });
-  return data;
+  return response;
 };
 
 export const getServerMe = async (): Promise<User | null> => {
