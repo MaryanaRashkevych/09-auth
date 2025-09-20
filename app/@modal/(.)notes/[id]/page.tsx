@@ -11,8 +11,7 @@ type NoteDetailsPageProps = {
 };
 
 export default async function NoteDetailsPage({ params }: NoteDetailsPageProps) {
-  
-  const { id } = await params;
+    const { id } = await params;
 
   const queryClient = new QueryClient();
 
@@ -20,7 +19,6 @@ export default async function NoteDetailsPage({ params }: NoteDetailsPageProps) 
     queryKey: ["note", id], 
     queryFn: () => fetchServerNoteById(id),
   });
-
   return (
     <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
